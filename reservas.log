@@ -1,0 +1,106 @@
+13:53:48 | INFO     | MainThread   | Tablas creadas/verificadas correctamente (InnoDB).
+13:53:48 | INFO     | MainThread   | Tablas vaciadas (TRUNCATE) para reiniciar la demo.
+13:53:48 | INFO     | MainThread   | Datos de prueba insertados: 10 vuelos, 10 hoteles, 10 transportes.
+13:53:49 | INFO     | MainThread   | ----- INVENTARIO ACTUAL -----
+13:53:49 | INFO     | MainThread   | Vuelo 1: Quito->Bogotá | asientos=0
+13:53:49 | INFO     | MainThread   | Vuelo 2: Guayaquil->Lima | asientos=1
+13:53:49 | INFO     | MainThread   | Vuelo 3: Cuenca->Madrid | asientos=5
+13:53:49 | INFO     | MainThread   | Vuelo 4: Quito->Miami | asientos=0
+13:53:49 | INFO     | MainThread   | Vuelo 5: Guayaquil->Ciudad de México | asientos=0
+13:53:49 | INFO     | MainThread   | Vuelo 6: Quito->Santiago | asientos=4
+13:53:49 | INFO     | MainThread   | Vuelo 7: Manta->Panamá | asientos=1
+13:53:49 | INFO     | MainThread   | Vuelo 8: Quito->Buenos Aires | asientos=3
+13:53:49 | INFO     | MainThread   | Vuelo 9: Guayaquil->Nueva York | asientos=2
+13:53:49 | INFO     | MainThread   | Vuelo 10: Cuenca->Toronto | asientos=1
+13:53:49 | INFO     | MainThread   | Hotel 1: Hotel Central | habitaciones=0
+13:53:49 | INFO     | MainThread   | Hotel 2: Plaza Suites | habitaciones=3
+13:53:49 | INFO     | MainThread   | Hotel 3: Mar Azul Resort | habitaciones=0
+13:53:49 | INFO     | MainThread   | Hotel 4: Torre Andina | habitaciones=2
+13:53:49 | INFO     | MainThread   | Hotel 5: Gran Hotel | habitaciones=5
+13:53:49 | INFO     | MainThread   | Hotel 6: Costa Verde | habitaciones=0
+13:53:49 | INFO     | MainThread   | Hotel 7: Hotel Imperial | habitaciones=1
+13:53:49 | INFO     | MainThread   | Hotel 8: Posada Real | habitaciones=4
+13:53:49 | INFO     | MainThread   | Hotel 9: Hotel Continental | habitaciones=0
+13:53:49 | INFO     | MainThread   | Hotel 10: Suites del Valle | habitaciones=2
+13:53:49 | INFO     | MainThread   | Transporte 1: Bus turístico | vehiculos=0
+13:53:49 | INFO     | MainThread   | Transporte 2: Auto privado | vehiculos=0
+13:53:49 | INFO     | MainThread   | Transporte 3: Van | vehiculos=2
+13:53:49 | INFO     | MainThread   | Transporte 4: Bus turístico | vehiculos=2
+13:53:49 | INFO     | MainThread   | Transporte 5: Bus turístico | vehiculos=4
+13:53:49 | INFO     | MainThread   | Transporte 6: Auto privado | vehiculos=3
+13:53:49 | INFO     | MainThread   | Transporte 7: Auto privado | vehiculos=0
+13:53:49 | INFO     | MainThread   | Transporte 8: Van | vehiculos=3
+13:53:49 | INFO     | MainThread   | Transporte 9: Auto privado | vehiculos=1
+13:53:49 | INFO     | MainThread   | Transporte 10: Shuttle | vehiculos=1
+13:53:49 | INFO     | MainThread   | ------------------------------
+13:53:49 | INFO     | MainThread   | 
+########## CASO 1: RESERVA EXITOSA ##########
+13:53:49 | INFO     | MainThread   | === Iniciando reserva: vuelo=3, hotel=4, transporte=3 ===
+13:53:49 | INFO     | MainThread   | [PASO 1] Vuelo 3 reservado (asiento descontado).
+13:53:49 | INFO     | MainThread   | SAVEPOINT 'sp_despues_vuelo' creado.
+13:53:49 | INFO     | MainThread   | [PASO 2] Hotel 4 reservado (habitación descontada).
+13:53:49 | INFO     | MainThread   | [PASO 3] Transporte 3 reservado (vehículo descontado).
+13:53:49 | INFO     | MainThread   | === Reserva completa exitosa (COMMIT) ===
+13:53:49 | INFO     | MainThread   | Resultado caso 1 -> éxito=True | Reserva completa exitosa: vuelo, hotel y transporte confirmados.
+
+13:53:49 | INFO     | MainThread   | ########## CASO 2: HOTEL SIN CUPO (SAVEPOINT + COMPENSACIÓN) ##########
+13:53:49 | INFO     | MainThread   | === Iniciando reserva: vuelo=6, hotel=3, transporte=4 ===
+13:53:49 | INFO     | MainThread   | [PASO 1] Vuelo 6 reservado (asiento descontado).
+13:53:49 | INFO     | MainThread   | SAVEPOINT 'sp_despues_vuelo' creado.
+13:53:49 | ERROR    | MainThread   | Fallo en reserva de hotel: No hay habitaciones disponibles en el hotel 3
+13:53:49 | WARNING  | MainThread   | ROLLBACK TO SAVEPOINT ejecutado.
+13:53:49 | WARNING  | MainThread   | [COMPENSACIÓN] Vuelo 6 cancelado, asiento liberado.
+13:53:49 | WARNING  | MainThread   | Transacción finalizada con COMPENSACIÓN. Vuelo cancelado, hotel no disponible.
+13:53:49 | INFO     | MainThread   | Resultado caso 2 -> éxito=False | Sin cupo en el hotel. Vuelo cancelado mediante compensación.
+
+13:53:49 | INFO     | MainThread   | ----- INVENTARIO ACTUAL -----
+13:53:49 | INFO     | MainThread   | Vuelo 1: Quito->Bogotá | asientos=0
+13:53:49 | INFO     | MainThread   | Vuelo 2: Guayaquil->Lima | asientos=1
+13:53:49 | INFO     | MainThread   | Vuelo 3: Cuenca->Madrid | asientos=4
+13:53:49 | INFO     | MainThread   | Vuelo 4: Quito->Miami | asientos=0
+13:53:49 | INFO     | MainThread   | Vuelo 5: Guayaquil->Ciudad de México | asientos=0
+13:53:49 | INFO     | MainThread   | Vuelo 6: Quito->Santiago | asientos=4
+13:53:49 | INFO     | MainThread   | Vuelo 7: Manta->Panamá | asientos=1
+13:53:49 | INFO     | MainThread   | Vuelo 8: Quito->Buenos Aires | asientos=3
+13:53:49 | INFO     | MainThread   | Vuelo 9: Guayaquil->Nueva York | asientos=2
+13:53:49 | INFO     | MainThread   | Vuelo 10: Cuenca->Toronto | asientos=1
+13:53:49 | INFO     | MainThread   | Hotel 1: Hotel Central | habitaciones=0
+13:53:49 | INFO     | MainThread   | Hotel 2: Plaza Suites | habitaciones=3
+13:53:49 | INFO     | MainThread   | Hotel 3: Mar Azul Resort | habitaciones=0
+13:53:49 | INFO     | MainThread   | Hotel 4: Torre Andina | habitaciones=1
+13:53:49 | INFO     | MainThread   | Hotel 5: Gran Hotel | habitaciones=5
+13:53:49 | INFO     | MainThread   | Hotel 6: Costa Verde | habitaciones=0
+13:53:49 | INFO     | MainThread   | Hotel 7: Hotel Imperial | habitaciones=1
+13:53:49 | INFO     | MainThread   | Hotel 8: Posada Real | habitaciones=4
+13:53:49 | INFO     | MainThread   | Hotel 9: Hotel Continental | habitaciones=0
+13:53:49 | INFO     | MainThread   | Hotel 10: Suites del Valle | habitaciones=2
+13:53:49 | INFO     | MainThread   | Transporte 1: Bus turístico | vehiculos=0
+13:53:49 | INFO     | MainThread   | Transporte 2: Auto privado | vehiculos=0
+13:53:49 | INFO     | MainThread   | Transporte 3: Van | vehiculos=1
+13:53:49 | INFO     | MainThread   | Transporte 4: Bus turístico | vehiculos=2
+13:53:49 | INFO     | MainThread   | Transporte 5: Bus turístico | vehiculos=4
+13:53:49 | INFO     | MainThread   | Transporte 6: Auto privado | vehiculos=3
+13:53:49 | INFO     | MainThread   | Transporte 7: Auto privado | vehiculos=0
+13:53:49 | INFO     | MainThread   | Transporte 8: Van | vehiculos=3
+13:53:49 | INFO     | MainThread   | Transporte 9: Auto privado | vehiculos=1
+13:53:49 | INFO     | MainThread   | Transporte 10: Shuttle | vehiculos=1
+13:53:49 | INFO     | MainThread   | ------------------------------
+13:53:49 | INFO     | MainThread   | ########## SIMULACIÓN DE DEADLOCK (real, detectado por InnoDB) ##########
+13:53:49 | INFO     | Transaccion-A | Transaccion-A: intenta bloquear fila VUELO 7 (SELECT ... FOR UPDATE)
+13:53:49 | INFO     | Transaccion-A | Transaccion-A: bloqueó VUELO 7. Esperando antes de pedir HOTEL...
+13:53:49 | INFO     | Transaccion-B | Transaccion-B: intenta bloquear fila HOTEL 5 (SELECT ... FOR UPDATE)
+13:53:49 | INFO     | Transaccion-B | Transaccion-B: bloqueó HOTEL 5. Esperando antes de pedir VUELO...
+13:53:50 | INFO     | Transaccion-A | Transaccion-A: intenta bloquear fila HOTEL 5 (SELECT ... FOR UPDATE)
+13:53:50 | INFO     | Transaccion-B | Transaccion-B: intenta bloquear fila VUELO 7 (SELECT ... FOR UPDATE)
+13:53:50 | ERROR    | Transaccion-B | Transaccion-B: DEADLOCK DETECTADO POR INNODB (error 1213) -> Deadlock found when trying to get lock; try restarting transaction. Esta transacción fue elegida como víctima y se hizo ROLLBACK automático.
+13:53:50 | INFO     | Transaccion-A | Transaccion-A: bloqueó HOTEL 5. Transacción completada con éxito (COMMIT).
+13:53:50 | INFO     | MainThread   | ########## FIN SIMULACIÓN DE DEADLOCK ##########
+
+13:53:50 | INFO     | MainThread   | ########## SIMULACIÓN DE TIMEOUT (real, innodb_lock_wait_timeout) ##########
+13:53:50 | INFO     | Transaccion-Lenta | Transaccion-Lenta: bloqueo de fila tomado sobre vuelo 9. Simulando operación lenta de 6s...
+13:53:51 | INFO     | Transaccion-Impaciente | Transaccion-Impaciente: intentando reservar el vuelo 9 (innodb_lock_wait_timeout = 2s)...
+13:53:53 | ERROR    | Transaccion-Impaciente | Transaccion-Impaciente: TIMEOUT (2.09s) -> error 1205: Lock wait timeout exceeded; try restarting transaction. El recurso siguió bloqueado más tiempo del permitido.
+13:53:56 | INFO     | Transaccion-Lenta | Transaccion-Lenta: transacción lenta finalizada y confirmada (COMMIT).
+13:53:56 | INFO     | MainThread   | ########## FIN SIMULACIÓN DE TIMEOUT ##########
+
+13:53:56 | INFO     | MainThread   | Simulación completa. Revise 'reservas.log' para el detalle completo.
